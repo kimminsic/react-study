@@ -8,20 +8,55 @@
   <script crossorigin src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <script type="text/babel">
-    const root = document.getElementById("root");
+    function NinutesToHours() {
+      const [amount, setAmount] = React.useState(0);
+      const [inverted, setInterted] = React.useState(false);
+      const [] = React.useState(false);
+      const onChange = (event) => {
+        setAmount(event.target.value)
+      };
+      const reset = () => setAmount(0);
+      const onInvert = () => {
+        reset();
+        setInterted((current) => !current);
+      }
+      return (
+              <div>
+                <label htmlFor="minutes">Minutes</label>
+                <input value={inverted ? amount * 60 : amount} id="minutes" placeholder="Minutes" type="number" onChange={onChange} disabled={inverted} />
+                <label htmlFor="hours">Hours</label>
+                <input value={inverted ? amount : Math.round(amount / 60)} id="hours" placeholder="Hours" type="number" onChange={onChange} disabled={!inverted} />
+                <button onClick={reset}>Reset</button>
+                <button onClick={onInvert}>{inverted ? "Turn back" : "Invert"}</button>
+              </div>
+      );
+    }
+    function KmToMiles() {
+      return (
+        <h3>KM 2 M</h3>
+      )
+    }
     function App() {
-    const [count, setCount] = React.useState(0);
-    const onClick = () => {
-      // setCount(count + 1);
-      setCount((current) => current + 1);
-    };
-    return (
-            <div>
-              <h3>Total clicks: {count}</h3>
-              <button onClick={onClick}>Click me</button>
-            </div>
-    );
-  }
-  ReactDOM.render(<App />, root);
+      const [index, setIndex] = React.useState("-1");
+      const onSelect = (event) => {
+        setIndex(event.target.value);
+      }
+      return (
+        <div>
+          <h1>Super Converter</h1>
+          <select onChange={onSelect}>
+            <option value="-1">Select</option>
+            <option value="0">Minutes & Hours</option>
+            <option value="1">Km & Miles</option>
+          </select>
+          <hr />
+          {index === "-1" ? "Select!" : null}
+          {index === "0" ? <NinutesToHours /> : null}
+          {index === "1" ? <KmToMiles /> : null}
+        </div>
+      );
+    }
+    const root = document.getElementById("root");
+    ReactDOM.render(<App />, root);
 </script>
 </html>
